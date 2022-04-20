@@ -4,7 +4,7 @@ kind: Kustomization
 images:
 - name: quay.io/codefresh/applicationset
   newName: quay.io/codefresh/applicationset
-  newTag: latest
+  newTag: v0.4.2
 
 resources:
 - deployment.yaml

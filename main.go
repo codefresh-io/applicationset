@@ -35,6 +35,7 @@ import (
 
 	"github.com/argoproj/applicationset/common"
 	argov1alpha1 "github.com/argoproj/argo-cd/v2/pkg/apis/application/v1alpha1"
+	"github.com/argoproj/argo-cd/v2/reposerver/askpass"
 	"github.com/argoproj/argo-cd/v2/util/db"
 	argosettings "github.com/argoproj/argo-cd/v2/util/settings"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -164,10 +165,19 @@ func main() {
 		startWebhookServer(webhookHandler, webhookAddr)
 	}
 
+	askpassServer := askpass.NewServer()
+
+	go func() {
+		if err := askpassServer.Run(askpass.SocketPath); err != nil {
+			setupLog.Error(err, "unable to start askpass server")
+			os.Exit(1)
+		}
+	}()
+
 	terminalGenerators := map[string]generators.Generator{
 		"List":                    generators.NewListGenerator(),
 		"Clusters":                generators.NewClusterGenerator(mgr.GetClient(), context.Background(), k8s, namespace),
-		"Git":                     generators.NewGitGenerator(services.NewArgoCDService(argoCDDB, argocdRepoServer)),
+		"Git":                     generators.NewGitGenerator(services.NewArgoCDService(argoCDDB, argocdRepoServer, askpassServer)),
 		"SCMProvider":             generators.NewSCMProviderGenerator(mgr.GetClient()),
 		"ClusterDecisionResource": generators.NewDuckTypeGenerator(context.Background(), dynClient, k8s, namespace),
 		"PullRequest":             generators.NewPullRequestGenerator(mgr.GetClient()),

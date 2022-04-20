@@ -1,4 +1,4 @@
-VERSION_PACKAGE=github.com/codefresh-io/applicationset/common
+VERSION_PACKAGE=github.com/argoproj/applicationset/common
 VERSION?=$(shell cat VERSION)
 IMAGE_NAMESPACE?=codefresh
 IMAGE_PLATFORMS?=linux/amd64,linux/arm64
