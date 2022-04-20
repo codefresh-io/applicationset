@@ -5,6 +5,9 @@ images:
 - name: quay.io/argoproj/argocd-applicationset
   newName: quay.io/argoproj/argocd-applicationset
   newTag: v0.4.1
+- name: quay.io/codefresh/applicationset
+  newName: quay.io/codefresh/applicationset
+  newTag: latest
 
 resources:
 - deployment.yaml

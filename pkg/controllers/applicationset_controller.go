@@ -109,7 +109,7 @@ func (r *ApplicationSetReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 
 	parametersGenerated = true
 
-	validateErrors, err := r.validateGeneratedApplications(ctx, desiredApplications, applicationSetInfo, req.Namespace)
+	validateErrors, err := r.validateGeneratedApplications(ctx, desiredApplications, req.Namespace)
 	if err != nil {
 		// While some generators may return an error that requires user intervention,
 		// other generators reference external resources that may change to cause
@@ -350,7 +350,7 @@ func (r *ApplicationSetReconciler) setApplicationSetStatusCondition(ctx context.
 
 // validateGeneratedApplications uses the Argo CD validation functions to verify the correctness of the
 // generated applications.
-func (r *ApplicationSetReconciler) validateGeneratedApplications(ctx context.Context, desiredApplications []argov1alpha1.Application, applicationSetInfo argoprojiov1alpha1.ApplicationSet, namespace string) (map[int]error, error) {
+func (r *ApplicationSetReconciler) validateGeneratedApplications(ctx context.Context, desiredApplications []argov1alpha1.Application, namespace string) (map[int]error, error) {
 	errorsByIndex := map[int]error{}
 	for i, app := range desiredApplications {
 		proj, err := r.ArgoAppClientset.ArgoprojV1alpha1().AppProjects(namespace).Get(ctx, app.Spec.GetProject(), metav1.GetOptions{})
@@ -465,7 +465,7 @@ func (r *ApplicationSetReconciler) generateApplications(applicationSetInfo argop
 
 func dedupApps(apps []argov1alpha1.Application) []argov1alpha1.Application {
 	appIdx := map[string]int{}
-	res := []argov1alpha1.Application{}
+	var res []argov1alpha1.Application
 
 	for i, a := range apps {
 		name := a.Name

@@ -124,11 +124,6 @@ func TestExtractApplications(t *testing.T) {
 		},
 	} {
 		cc := c
-		app := argov1alpha1.Application{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "test",
-			},
-		}
 
 		t.Run(cc.name, func(t *testing.T) {
 
@@ -163,6 +158,11 @@ func TestExtractApplications(t *testing.T) {
 						rendererMock.On("RenderTemplateParams", getTempApplication(cc.template), p).
 							Return(nil, cc.rendererError)
 					} else {
+						app := argov1alpha1.Application{
+							ObjectMeta: metav1.ObjectMeta{
+								Name: p["name"],
+							},
+						}
 						rendererMock.On("RenderTemplateParams", getTempApplication(cc.template), p).
 							Return(&app, nil)
 						expectedApps = append(expectedApps, app)
@@ -1734,9 +1734,7 @@ func TestValidateGeneratedApplications(t *testing.T) {
 				KubeClientset:    kubeclientset,
 			}
 
-			appSetInfo := argoprojiov1alpha1.ApplicationSet{}
-
-			validationErrors, _ := r.validateGeneratedApplications(context.TODO(), cc.apps, appSetInfo, "namespace")
+			validationErrors, _ := r.validateGeneratedApplications(context.TODO(), cc.apps, "namespace")
 			var errorMessages []string
 			for _, v := range validationErrors {
 				errorMessages = append(errorMessages, v.Error())
