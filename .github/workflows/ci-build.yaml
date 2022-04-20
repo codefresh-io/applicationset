@@ -2,11 +2,11 @@ name: Integration tests
 on:
   push:
     branches:
-      - 'master'
+      - 'release-*'
 
   pull_request:
     branches:
-      - 'master'
+      - 'release-*' # Codefresh change instead of `master`
 
 jobs:
   build-docker:
@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k3s-version: [v1.20.2, v1.16.15]        
+        k3s-version: [v1.20.2, v1.16.15]
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}

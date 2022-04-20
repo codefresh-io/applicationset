@@ -3,7 +3,7 @@ name: Build image on commit to master
 on:
   push:
     branches:
-      - master
+      - 'release-*' # Codefresh change instead of `master`
 
 jobs:
   publish:
@@ -21,7 +21,7 @@ jobs:
       # Build the image
       - run: |
           docker images -a --format "{{.ID}}" | xargs -I {} docker rmi {}
-          CONTAINER_REGISTRY=quay.io IMAGE_NAMESPACE=argoproj IMAGE_TAG=latest make image
+          CONTAINER_REGISTRY=quay.io IMAGE_NAMESPACE=codefresh IMAGE_TAG=latest make image
         working-directory: ./src/applicationset
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -30,8 +30,8 @@ jobs:
 
       # Publish the image
       - run: |
-          docker login quay.io --username $USERNAME --password $PASSWORD
-          docker push quay.io/argoproj/argocd-applicationset:latest
+          docker login quay.io --username $QUAY_USERNAME --password $QUAY_TOKEN
+          docker push quay.io/codefresh/applicationset:latest
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.TOKEN }}
+          QUAY_USERNAME: ${{ secrets.RELEASE_QUAY_USERNAME }}
+          QUAY_TOKEN: ${{ secrets.RELEASE_QUAY_TOKEN }}

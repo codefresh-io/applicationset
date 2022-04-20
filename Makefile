@@ -1,7 +1,7 @@
-VERSION_PACKAGE=github.com/argoproj/applicationset/common
+VERSION_PACKAGE=github.com/codefresh-io/applicationset/common
 VERSION?=$(shell cat VERSION)
-IMAGE_NAMESPACE?=argoproj
-IMAGE_NAME?=argocd-applicationset
+IMAGE_NAMESPACE?=codefresh
+IMAGE_NAME?=applicationset
 IMAGE_TAG?=latest
 CONTAINER_REGISTRY?=quay.io
 GIT_COMMIT = $(shell git rev-parse HEAD)
