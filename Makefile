@@ -1,8 +1,8 @@
-VERSION_PACKAGE=github.com/argoproj/applicationset/common
+VERSION_PACKAGE=github.com/codefresh-io/applicationset/common
 VERSION?=$(shell cat VERSION)
-IMAGE_NAMESPACE?=argoproj
+IMAGE_NAMESPACE?=codefresh
 IMAGE_PLATFORMS?=linux/amd64,linux/arm64
-IMAGE_NAME?=argocd-applicationset
+IMAGE_NAME?=applicationset
 IMAGE_TAG?=latest
 CONTAINER_REGISTRY?=quay.io
 GIT_COMMIT = $(shell git rev-parse HEAD)
@@ -121,18 +121,11 @@ controller-gen: ## Download controller-gen to '(project root)/bin', if not alrea
 
 
 kustomize: ## Download kustomize to '(project root)/bin', if not already present.
-	$(call go-get-tool,$(KUSTOMIZE),sigs.k8s.io/kustomize/kustomize/v3@v3.9.4)
+	$(call go-get-tool,$(KUSTOMIZE),sigs.k8s.io/kustomize/kustomize/v4@v4.5.2)
 
 # go-get-tool will 'go get' any package $2 and install it to $1.
 PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 define go-get-tool
-@[ -f $(1) ] || { \
-set -e ;\
-TMP_DIR=$$(mktemp -d) ;\
-cd $$TMP_DIR ;\
-go mod init tmp ;\
 echo "Downloading $(2)" ;\
-GOBIN=$(PROJECT_DIR)/bin go get $(2) ;\
-rm -rf $$TMP_DIR ;\
-}
+GOBIN=$(PROJECT_DIR)/bin go install $(2) ;
 endef

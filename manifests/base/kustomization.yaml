@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 images:
-- name: quay.io/argoproj/argocd-applicationset
-  newName: quay.io/argoproj/argocd-applicationset
+- name: quay.io/codefresh/applicationset
+  newName: quay.io/codefresh/applicationset
   newTag: latest
 
 resources:

@@ -17,8 +17,8 @@ if [ "$CONTAINER_REGISTRY" != "" ]; then
 	CONTAINER_REGISTRY="${CONTAINER_REGISTRY}/"
 fi
 
-IMAGE_NAME="${IMAGE_NAME:-argocd-applicationset}"
-IMAGE_NAMESPACE="${IMAGE_NAMESPACE:-argoproj}"
+IMAGE_NAME="${IMAGE_NAME:-applicationset}"
+IMAGE_NAMESPACE="${IMAGE_NAMESPACE:-codefresh}"
 IMAGE_TAG="${IMAGE_TAG:-}"
 
 # if the tag has not been declared, and we are on a release branch, use the VERSION file.
@@ -34,7 +34,7 @@ if [ "$IMAGE_TAG" = "" ]; then
   IMAGE_TAG=latest
 fi
 
-cd ${SRCROOT}/manifests/base && ${KUSTOMIZE} edit set image quay.io/argoproj/argocd-applicationset=${CONTAINER_REGISTRY}${IMAGE_NAMESPACE}/$IMAGE_NAME:${IMAGE_TAG}
+cd ${SRCROOT}/manifests/base && ${KUSTOMIZE} edit set image quay.io/codefresh/applicationset=${CONTAINER_REGISTRY}${IMAGE_NAMESPACE}/$IMAGE_NAME:${IMAGE_TAG}
 
 # Use kustomize to render 'manifests/install.yaml'
 echo "${AUTOGENMSG}" > ${TEMPFILE}

@@ -32,7 +32,7 @@ jobs:
             IMAGE_PLATFORMS=linux/amd64,linux/arm64
           fi
           echo "Building image for platforms: $IMAGE_PLATFORMS"
-          make image DOCKER_PUSH=false CONTAINER_REGISTRY=quay.io IMAGE_NAMESPACE=argoproj IMAGE_TAG=latest IMAGE_PLATFORMS=${IMAGE_PLATFORMS}
+          make image DOCKER_PUSH=false CONTAINER_REGISTRY=quay.io IMAGE_NAMESPACE=codefresh IMAGE_TAG=latest IMAGE_PLATFORMS=${IMAGE_PLATFORMS}
         working-directory: ./src/applicationset
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -41,9 +41,8 @@ jobs:
 
       # Publish the image
       - run: |
-          docker login quay.io --username $USERNAME --password $PASSWORD
-          docker push quay.io/argoproj/argocd-applicationset:latest
-        if: github.event_name == 'push'
+          docker login quay.io --username $QUAY_USERNAME --password $QUAY_TOKEN
+          docker push quay.io/codefresh/applicationset:latest
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.TOKEN }}
+          QUAY_USERNAME: ${{ secrets.RELEASE_QUAY_USERNAME }}
+          QUAY_TOKEN: ${{ secrets.RELEASE_QUAY_TOKEN }}
