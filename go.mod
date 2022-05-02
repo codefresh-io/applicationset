@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/valyala/fasttemplate v1.2.1
 	github.com/xanzy/go-gitlab v0.50.0
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
@@ -155,7 +155,7 @@ require (
 )
 
 replace (
-	github.com/argoproj/argo-cd/v2 => github.com/codefresh-io/argo-cd/v2 v2.3.3-cap-CR-kustomize-components
+	github.com/argoproj/argo-cd/v2 => github.com/codefresh-io/argo-cd/v2 v2.3.4-0.20220529160539-ca35709c2ad5
 	// https://github.com/golang/go/issues/33546#issuecomment-519656923
 	github.com/go-check/check => github.com/go-check/check v0.0.0-20180628173108-788fd7840127
 	github.com/golang/protobuf => github.com/golang/protobuf v1.4.2
