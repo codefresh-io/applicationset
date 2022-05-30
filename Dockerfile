@@ -25,12 +25,17 @@ FROM docker.io/library/ubuntu:21.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get dist-upgrade -y && \
-  apt-get install -y git git-lfs gpg tini && \
+  apt-get install -y git git-lfs gpg tini curl && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp/* /var/tmp/*
 
 
 # Add Argo CD helper scripts that are required by 'github.com/argoproj/argo-cd/util/git' package
+ARG ARGOCD_VERSION=v2.3.3
+
+RUN curl -L --output argocd https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64 && \
+  chmod +x ./argocd && \
+  mv ./argocd /usr/local/bin
 COPY hack/from-argo-cd/gpg-wrapper.sh /usr/local/bin/gpg-wrapper.sh
 COPY hack/from-argo-cd/git-verify-wrapper.sh /usr/local/bin/git-verify-wrapper.sh
 COPY hack/from-argo-cd/git-ask-pass.sh /usr/local/bin/git-ask-pass.sh
@@ -39,12 +44,12 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Support for mounting configuration from a configmap
 RUN mkdir -p /app/config/ssh && \
-    touch /app/config/ssh/ssh_known_hosts && \
-    ln -s /app/config/ssh/ssh_known_hosts /etc/ssh/ssh_known_hosts
+  touch /app/config/ssh/ssh_known_hosts && \
+  ln -s /app/config/ssh/ssh_known_hosts /etc/ssh/ssh_known_hosts
 
 RUN mkdir -p /app/config/tls
 RUN mkdir -p /app/config/gpg/source && \
-    mkdir -p /app/config/gpg/keys
+  mkdir -p /app/config/gpg/keys
 #    chown argocd /app/config/gpg/keys && \
 #    chmod 0700 /app/config/gpg/keys
 

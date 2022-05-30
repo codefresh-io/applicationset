@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/argoproj/argo-cd/v2 v2.3.0-rc5.0.20220225234205-31676e2aea6f
-	github.com/argoproj/gitops-engine v0.6.0
+	github.com/argoproj/gitops-engine v0.6.2
 	github.com/argoproj/pkg v0.11.1-0.20211203175135-36c59d8fafe0
 	github.com/go-logr/logr v1.2.2
 	github.com/google/go-github/v35 v35.0.0
@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/valyala/fasttemplate v1.2.1
 	github.com/xanzy/go-gitlab v0.50.0
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
@@ -69,7 +69,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/btree v1.0.1 // indirect
-	github.com/google/go-cmp v0.5.6 // indirect
+	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/google/go-github/v41 v41.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/gofuzz v1.1.0 // indirect
@@ -133,8 +133,8 @@ require (
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20210831024726-fe130286e0e2 // indirect
-	google.golang.org/grpc v1.40.0 // indirect
+	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e // indirect
+	google.golang.org/grpc v1.45.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -155,9 +155,9 @@ require (
 )
 
 replace (
+	github.com/argoproj/argo-cd/v2 => github.com/codefresh-io/argo-cd/v2 v2.3.4-0.20220529160539-ca35709c2ad5
 	// https://github.com/golang/go/issues/33546#issuecomment-519656923
 	github.com/go-check/check => github.com/go-check/check v0.0.0-20180628173108-788fd7840127
-
 	github.com/golang/protobuf => github.com/golang/protobuf v1.4.2
 	github.com/gorilla/websocket => github.com/gorilla/websocket v1.4.2
 	github.com/grpc-ecosystem/grpc-gateway => github.com/grpc-ecosystem/grpc-gateway v1.16.0
