@@ -1,9 +1,9 @@
 VERSION_PACKAGE=github.com/argoproj/applicationset/common
 VERSION?=$(shell cat VERSION)
 IMAGE_NAMESPACE?=codefresh
-IMAGE_PLATFORMS?=linux/amd64,linux/arm64
+IMAGE_PLATFORMS?=linux/amd64
 IMAGE_NAME?=applicationset
-IMAGE_TAG?=latest
+IMAGE_TAG?=${VERSION}
 CONTAINER_REGISTRY?=quay.io
 GIT_COMMIT = $(shell git rev-parse HEAD)
 LDFLAGS = -w -s -X ${VERSION_PACKAGE}.version=${VERSION} \
@@ -37,8 +37,11 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
+.PHONY: codegen
+codegen: manifests fmt vet
+
 .PHONY: build
-build: manifests fmt vet
+build:
 	CGO_ENABLED=0 go build -ldflags="${LDFLAGS}" -o ./dist/argocd-applicationset .
 
 .PHONY: test
@@ -46,8 +49,8 @@ test: generate fmt vet manifests
 	go test -race -count=1 -coverprofile=coverage.out `go list ./... | grep -v 'test/e2e'`
 
 .PHONY: image
-image: test
-	docker buildx build --platform $(IMAGE_PLATFORMS) -t ${IMAGE_PREFIX}${IMAGE_NAME}:${IMAGE_TAG} .
+image:
+	docker buildx build --platform $(IMAGE_PLATFORMS) --load -t ${IMAGE_PREFIX}${IMAGE_NAME}:${IMAGE_TAG} .
 
 .PHONY: image-push
 image-push: image
